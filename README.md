@@ -1,5 +1,4 @@
-# EVT2
-Easy vue test 2
+# Easy Vue Test 2
 
 ## Goal
 The previous easy-vue-test has an awkward API. It is very hard to extend its functionality with TypeScript. EVT2 is the next generation of easy-vue-test to provide a better API.

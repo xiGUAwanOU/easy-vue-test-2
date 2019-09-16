@@ -4,13 +4,13 @@ import { VueConstructor } from "vue";
 import { Action, MultipleAccessor, SingleAccessor, VueComponent, WrappedElement } from "./CommonTypes";
 import cloneVue from "./Utilities/VueCloner";
 
-import { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData } from "./Functions/ComponentFieldFunctions";
+import { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp } from "./Functions/ComponentFieldFunctions";
 import { checkDomExistence, dom, doms } from "./Functions/DomFunctions";
 import { getInnerHtml, getOuterHtml } from "./Functions/HtmlFunctions";
 import { getTextContent } from "./Functions/TextFunctions";
 
 export {
-  get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData,
+  get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp,
   dom, doms, checkDomExistence,
   getInnerHtml, getOuterHtml,
   getTextContent,

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { getComputed, getData, getProp, setComputed, setData } from "../../src/main";
+import EasyVueTest, { getComputed, getData, getProp, setComputed, setData, setProp } from "../../src/main";
 
 describe("DomFunctions", () => {
   let easy: EasyVueTest;
@@ -59,7 +59,15 @@ describe("DomFunctions", () => {
     ).toEqual("bar bar");
   });
 
-  it("sets data and computed fields correctly", async () => {
+  it("sets prop, data and computed fields correctly", async () => {
+    await easy
+      .do(setProp("propContent", "baz"))
+      .untilAsyncTasksDone();
+
+    expect(easy
+      .do(getProp("propContent")),
+    ).toEqual("baz");
+
     await easy
       .do(setData("dataContent", "baz"))
       .untilAsyncTasksDone();

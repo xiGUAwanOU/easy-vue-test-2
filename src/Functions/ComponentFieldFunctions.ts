@@ -9,6 +9,13 @@ export function getProp<T>(field: string): Action<VueComponent, T> {
   };
 }
 
+export function setProp(field: string, value: any): Action<VueComponent, EasyVueTest> {
+  return ({ el, wrapper }): EasyVueTest => {
+    _.set(el.$props, field, value);
+    return wrapper;
+  };
+}
+
 export function getData<T>(field: string): Action<VueComponent, T> {
   return ({ el }): T => {
     return _.get(el.$data, field);

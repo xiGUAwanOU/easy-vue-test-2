@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { getComputed, getData, getProp, setComputed, setData, setProp } from "../../src/main";
+import EasyVueTest, { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp } from "../../src/main";
 
 describe("DomFunctions", () => {
   let easy: EasyVueTest;
@@ -34,6 +34,12 @@ describe("DomFunctions", () => {
           set(value: string) {
             this.dataContent = value.split(" ")[0];
           },
+        },
+      },
+
+      methods: {
+        getSomeString(): string {
+          return this.dataContent + " some string";
         },
       },
     });
@@ -89,5 +95,21 @@ describe("DomFunctions", () => {
     expect(easy
       .do(getComputed("computedContent")),
     ).toEqual("bar bar");
+  });
+
+  it("invokes method and get return value correctly", () => {
+    expect(easy
+      .do(invokeMethod("getSomeString")),
+    ).toEqual("bar some string");
+  });
+
+  it("set and get 'dollar' field correctly", async () => {
+    await easy
+      .do(set$("field", "hello world"))
+      .untilAsyncTasksDone();
+
+    expect(easy
+      .do(get$("field")),
+    ).toEqual("hello world");
   });
 });

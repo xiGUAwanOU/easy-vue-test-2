@@ -1,7 +1,7 @@
 import Vue from "vue";
 import EasyVueTest, { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp } from "../../src/main";
 
-describe("DomFunctions", () => {
+describe("ComponentFieldFunctions", () => {
   let easy: EasyVueTest;
 
   beforeEach(async () => {

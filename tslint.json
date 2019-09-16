@@ -38,6 +38,10 @@
         ]
       }
     ],
+    "object-literal-key-quotes": [
+      true,
+      "consistent-as-needed"
+    ],
     "object-literal-sort-keys": false,
     "variable-name": {
       "options": [

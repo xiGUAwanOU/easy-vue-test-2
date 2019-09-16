@@ -1,7 +1,7 @@
 import Vue from "vue";
-import EasyVueTest, { checkDomExistence, dom, getInnerHtml, getOuterHtml } from "../../src/main";
+import EasyVueTest, { dom, getInnerHtml, getOuterHtml } from "../../src/main";
 
-describe("DomFunctions", () => {
+describe("HtmlFunction", () => {
   let easy: EasyVueTest;
 
   beforeEach(async () => {

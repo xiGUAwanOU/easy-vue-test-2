@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xiGUAwanOU/easy-vue-test-2.svg?branch=master)](https://travis-ci.org/xiGUAwanOU/easy-vue-test-2)
+
 # Easy Vue Test 2
 
 ## Goal

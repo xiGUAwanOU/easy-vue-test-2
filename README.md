@@ -51,10 +51,49 @@ Functions in the library can be divided into two groups, namely accessors and ac
     ```typescript
     declare function element(selector: string): SingleAccessor<WrappedObject, HTMLElement>;
     ```
-* Description: get the first HTML element which matchs the selector.
+* Description: get the first HTML element which matchs the element selector.
 
-#### Other Accessors
-WIP.
+#### `elements`
+* Declaration:
+    ```typescript
+    declare function elements(selector: string): MultipleAccessor<WrappedObject, HTMLElement>;
+    ```
+* Description: get an array of HTML elements which match the element selector.
+
+#### `childBySelector`
+* Declaration:
+    ```typescript
+    declare function childBySelector(selector: string): SingleAccessor<VueComponent, VueComponent>;
+    ```
+* Description: get a chlid Vue component using element selector matching its root element.
+
+#### `childByName`
+* Declaration:
+    ```typescript
+    declare function childByName(componentName: string): SingleAccessor<VueComponent, VueComponent>;
+    ```
+* Description: get a chlid Vue component by its tag name registered in the parent component.
+
+#### `childByRef`
+* Declaration:
+    ```typescript
+    declare function childByRef(ref: string): SingleAccessor<VueComponent, VueComponent>;
+    ```
+* Description: get a child Vue component by its ref attribute.
+
+#### `childrenBySelector`
+* Declaration:
+    ```typescript
+    declare function childrenBySelector(selector: string): MultipleAccessor<VueComponent, VueComponent>;
+    ```
+* Description: get an array of chlid Vue components by matching their root components to the element selector.
+
+#### `childrenByName`
+* Declaration:
+    ```typescript
+    declare function childrenByName(componentName: string): MultipleAccessor<VueComponent, VueComponent>;
+    ```
+* Description: get an array of chlid Vue components by their tag name registered in the parent component.
 
 ### 2. Actions
 WIP.

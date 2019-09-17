@@ -1,6 +1,13 @@
 import { Action, isVueComponent, WrappedElement } from "../CommonTypes";
 import EasyVueTest from "../main";
 
+interface KeyAttribute {
+  code: string;
+  key: string;
+  keyCode: number;
+  location: number;
+}
+
 export function click<T extends WrappedElement>(): Action<T, EasyVueTest<T>> {
   return ({ el, wrapper }): EasyVueTest<T> => {
     const element = (isVueComponent(el) ? el.$el : el) as HTMLElement;
@@ -9,11 +16,11 @@ export function click<T extends WrappedElement>(): Action<T, EasyVueTest<T>> {
   };
 }
 
-export function keyup<T extends WrappedElement>(key: keyof typeof KEY_ATTR = "Enter"): Action<T, EasyVueTest<T>> {
+export function keyup<T extends WrappedElement>(keyAttr: KeyAttribute = KEYS.ENTER): Action<T, EasyVueTest<T>> {
   return ({ el, wrapper }): EasyVueTest<T> => {
     const element = (isVueComponent(el) ? el.$el : el) as HTMLElement;
     element.dispatchEvent(new window.KeyboardEvent("keyup", {
-      ...getKeyAttr(key),
+      ...keyAttr,
       bubbles: true,
       cancelable: true,
     } as any));
@@ -21,17 +28,13 @@ export function keyup<T extends WrappedElement>(key: keyof typeof KEY_ATTR = "En
   };
 }
 
-function getKeyAttr(key: keyof typeof KEY_ATTR) {
-  return KEY_ATTR[key];
-}
-
-const KEY_ATTR = {
-  "Backspace": { key: "Backspace", location: 0, keyCode: 8, code: "Backspace" },
-  "Enter": { key: "Enter", location: 0, keyCode: 13, code: "Enter" },
-  "Escape": { key: "Escape", location: 0, keyCode: 27, code: "Escape" },
-  " ": { key: " ", location: 0, keyCode: 32, code: "Space" },
-  "ArrowLeft": { key: "ArrowLeft", location: 0, keyCode: 37, code: "ArrowLeft" },
-  "ArrowUp": { key: "ArrowUp", location: 0, keyCode: 38, code: "ArrowUp" },
-  "ArrowRight": { key: "ArrowRight", location: 0, keyCode: 39, code: "ArrowRight" },
-  "ArrowDown": { key: "ArrowDown", location: 0, keyCode: 40, code: "ArrowDown" },
+export const KEYS: { [name: string]: KeyAttribute } = {
+  ENTER: { code: "Enter", key: "Enter", keyCode: 13, location: 0 },
+  ESCAPE: { code: "Escape", key: "Escape", keyCode: 27, location: 0 },
+  BACKSPACE: { code: "Backspace", key: "Backspace", keyCode: 8, location: 0 },
+  SPACE: { code: "Space", key: " ", keyCode: 32, location: 0 },
+  ARROW_LEFT: { code: "ArrowLeft", key: "ArrowLeft", keyCode: 37, location: 0 },
+  ARROW_UP: { code: "ArrowUp", key: "ArrowUp", keyCode: 38, location: 0 },
+  ARROW_RIGHT: { code: "ArrowRight", key: "ArrowRight", keyCode: 39, location: 0 },
+  ARROW_DOWN: { code: "ArrowDown", key: "ArrowDown", keyCode: 40, location: 0 },
 };

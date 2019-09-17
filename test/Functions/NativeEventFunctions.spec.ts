@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { click, dom, getData, keyup } from "../../src/main";
+import EasyVueTest, { click, dom, getData, KEYS, keyup } from "../../src/main";
 
 describe("NativeEventFunctions", () => {
   let easy: EasyVueTest;
@@ -8,8 +8,9 @@ describe("NativeEventFunctions", () => {
     const component = Vue.component("TestComponent", {
       template: `
         <div>
-          <input class="keyboard-event-dispatcher" @keyup.enter="onEnterPressed"></input>
-          <button class="mouse-event-dispatcher" @click="onClicked">Click Me!</button>
+          <input class="enter-event-dispatcher" @keyup.enter="onKeyup"></input>
+          <input class="escape-event-dispatcher" @keyup.esc="onKeyup"></input>
+          <button class="mouse-event-dispatcher" @click="onClick">Click Me!</button>
         </div>
       `,
 
@@ -20,11 +21,11 @@ describe("NativeEventFunctions", () => {
       },
 
       methods: {
-        onEnterPressed(event: any) {
-          this.log.push("enter pressed");
+        onKeyup(event: any) {
+          this.log.push(`${event.key} pressed`);
         },
 
-        onClicked() {
+        onClick() {
           this.log.push("clicked");
         },
       },
@@ -46,12 +47,31 @@ describe("NativeEventFunctions", () => {
 
   it("fires up the keyboard event correctly", async () => {
     await easy
-      .get(dom(".keyboard-event-dispatcher"))
+      .get(dom(".enter-event-dispatcher"))
       .do(keyup())
+      .untilAsyncTasksDone();
+
+    await easy
+      .get(dom(".escape-event-dispatcher"))
+      .do(keyup(KEYS.ESCAPE))
       .untilAsyncTasksDone();
 
     expect(easy
       .do(getData("log")),
-    ).toContain("enter pressed");
+    ).toContain("Enter pressed");
+    expect(easy
+      .do(getData("log")),
+    ).toContain("Escape pressed");
+  });
+
+  it("doesn't fire up keyboard event if the key is not matching", async () => {
+    await easy
+      .get(dom(".escape-event-dispatcher"))
+      .do(keyup(KEYS.ENTER))
+      .untilAsyncTasksDone();
+
+    expect(easy
+      .do(getData("log")),
+    ).toEqual([]);
   });
 });

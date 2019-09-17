@@ -7,14 +7,14 @@ import { Action, MultipleAccessor, SingleAccessor, VueComponent, WrappedElement 
 import { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp } from "./Functions/ComponentFieldFunctions";
 import { checkDomExistence, dom, doms } from "./Functions/DomFunctions";
 import { getInnerHtml, getOuterHtml } from "./Functions/HtmlFunctions";
-import { click, keyup } from "./Functions/NativeEventFunctions";
+import { click, KEYS, keyup } from "./Functions/NativeEventFunctions";
 import { getTextContent } from "./Functions/TextFunctions";
 
 export {
   get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp,
   dom, doms, checkDomExistence,
   getInnerHtml, getOuterHtml,
-  click, keyup,
+  click, KEYS, keyup,
   getTextContent,
 };
 

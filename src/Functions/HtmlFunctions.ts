@@ -1,15 +1,14 @@
-import { Action, isVueComponent, WrappedElement } from "../CommonTypes";
+import { Action, WrappedObject } from "../CommonTypes";
+import { getHtmlElement } from "../Utilities";
 
-export function getInnerHtml(): Action<WrappedElement, string> {
-  return ({ el }): string => {
-    const element = isVueComponent(el) ? el.$el : el as Element;
-    return element.innerHTML || "";
+export function getInnerHtml(): Action<WrappedObject, string> {
+  return ({ obj }): string => {
+    return getHtmlElement(obj).innerHTML || "";
   };
 }
 
-export function getOuterHtml(): Action<WrappedElement, string> {
-  return ({ el }): string => {
-    const element = isVueComponent(el) ? el.$el : el as Element;
-    return element.outerHTML || "";
+export function getOuterHtml(): Action<WrappedObject, string> {
+  return ({ obj }): string => {
+    return getHtmlElement(obj).outerHTML || "";
   };
 }

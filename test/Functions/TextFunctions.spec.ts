@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { dom, doms, getTextContent } from "../../src/main";
+import EasyVueTest, { element, elements, getTextContent } from "../../src/main";
 
 describe("TextFunctions", () => {
   let easy: EasyVueTest;
@@ -27,22 +27,22 @@ describe("TextFunctions", () => {
 
   it("gets the text content of an element correctly", () => {
     expect(easy
-      .get(dom(".navigation p"))
+      .get(element(".navigation p"))
       .do(getTextContent()),
     ).toEqual("foo");
 
     expect(easy
-      .get(dom("p#the-message"))
+      .get(element("p#the-message"))
       .do(getTextContent()),
     ).toEqual("bar");
 
     expect(easy
-      .get(dom("p.message"))
+      .get(element("p.message"))
       .do(getTextContent()),
     ).toEqual("baz");
 
     expect(easy
-      .getAll(doms("ul li"))
+      .getAll(elements("ul li"))
       .map((e) => e.do(getTextContent())),
     ).toEqual(["1", "2", "3"]);
   });

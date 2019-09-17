@@ -1,8 +1,8 @@
-import { Action, isVueComponent, WrappedElement } from "../CommonTypes";
+import { Action, WrappedObject } from "../CommonTypes";
+import { getHtmlElement } from "../Utilities";
 
-export function getTextContent(): Action<WrappedElement, string> {
-  return ({ el }): string => {
-    const element = isVueComponent(el) ? el.$el : el as Element;
-    return element.textContent || "";
+export function getTextContent(): Action<WrappedObject, string> {
+  return ({ obj }) => {
+    return getHtmlElement(obj).textContent || "";
   };
 }

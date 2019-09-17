@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { click, dom, getData, KEYS, keyup } from "../../src/main";
+import EasyVueTest, { click, element, getData, KEYS, keyup } from "../../src/main";
 
 describe("NativeEventFunctions", () => {
   let easy: EasyVueTest;
@@ -36,7 +36,7 @@ describe("NativeEventFunctions", () => {
 
   it("fires up the click event correctly", async () => {
     await easy
-      .get(dom(".mouse-event-dispatcher"))
+      .get(element(".mouse-event-dispatcher"))
       .do(click())
       .untilAsyncTasksDone();
 
@@ -47,12 +47,12 @@ describe("NativeEventFunctions", () => {
 
   it("fires up the keyboard event correctly", async () => {
     await easy
-      .get(dom(".enter-event-dispatcher"))
+      .get(element(".enter-event-dispatcher"))
       .do(keyup())
       .untilAsyncTasksDone();
 
     await easy
-      .get(dom(".escape-event-dispatcher"))
+      .get(element(".escape-event-dispatcher"))
       .do(keyup(KEYS.ESCAPE))
       .untilAsyncTasksDone();
 
@@ -66,7 +66,7 @@ describe("NativeEventFunctions", () => {
 
   it("doesn't fire up keyboard event if the key is not matching", async () => {
     await easy
-      .get(dom(".escape-event-dispatcher"))
+      .get(element(".escape-event-dispatcher"))
       .do(keyup(KEYS.ENTER))
       .untilAsyncTasksDone();
 

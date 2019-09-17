@@ -1,5 +1,6 @@
-import { Action, isVueComponent, WrappedElement } from "../CommonTypes";
+import { Action } from "../CommonTypes";
 import EasyVueTest from "../main";
+import { getHtmlElement } from "../Utilities";
 
 interface KeyAttribute {
   code: string;
@@ -8,18 +9,16 @@ interface KeyAttribute {
   location: number;
 }
 
-export function click<T extends WrappedElement>(): Action<T, EasyVueTest<T>> {
-  return ({ el, wrapper }): EasyVueTest<T> => {
-    const element = (isVueComponent(el) ? el.$el : el) as HTMLElement;
-    element.click();
+export function click(): Action<HTMLElement, EasyVueTest<HTMLElement>> {
+  return ({ obj, wrapper }) => {
+    getHtmlElement(obj).click();
     return wrapper;
   };
 }
 
-export function keyup<T extends WrappedElement>(keyAttr: KeyAttribute = KEYS.ENTER): Action<T, EasyVueTest<T>> {
-  return ({ el, wrapper }): EasyVueTest<T> => {
-    const element = (isVueComponent(el) ? el.$el : el) as HTMLElement;
-    element.dispatchEvent(new window.KeyboardEvent("keyup", {
+export function keyup(keyAttr: KeyAttribute = KEYS.ENTER): Action<HTMLElement, EasyVueTest<HTMLElement>> {
+  return ({ obj, wrapper }) => {
+    getHtmlElement(obj).dispatchEvent(new window.KeyboardEvent("keyup", {
       ...keyAttr,
       bubbles: true,
       cancelable: true,

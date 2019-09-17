@@ -2,20 +2,33 @@ import _ from "lodash";
 import Vue from "vue";
 import { VueConstructor } from "vue";
 
-import { Action, MultipleAccessor, SingleAccessor, VueComponent, WrappedElement } from "./CommonTypes";
+import { Action, MultipleAccessor, SingleAccessor, VueComponent, WrappedObject } from "./CommonTypes";
 
+import { childByName, childByRef, childBySelector, childrenByName, childrenBySelector } from "./Functions/ChildComponentFunctions";
 import { get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp } from "./Functions/ComponentFieldFunctions";
-import { checkDomExistence, dom, doms } from "./Functions/DomFunctions";
+import { checkElementExistence, element, elements } from "./Functions/ElementFunctions";
+import { getInputValue, setInputValue } from "./Functions/FormInteractionFunctions";
 import { getInnerHtml, getOuterHtml } from "./Functions/HtmlFunctions";
 import { click, KEYS, keyup } from "./Functions/NativeEventFunctions";
 import { getTextContent } from "./Functions/TextFunctions";
+import { emitVueEvent, setVueEventListener } from "./Functions/VueEventFunctions";
+
+import { getHtmlElement, isVueComponent } from "./Utilities";
 
 export {
+  childByName, childByRef, childBySelector, childrenByName, childrenBySelector,
   get$, getComputed, getData, getProp, invokeMethod, set$, setComputed, setData, setProp,
-  dom, doms, checkDomExistence,
+  checkElementExistence, element, elements,
+  getInputValue, setInputValue,
   getInnerHtml, getOuterHtml,
   click, KEYS, keyup,
   getTextContent,
+  emitVueEvent, setVueEventListener,
+};
+
+export const utils = {
+  isVueComponent,
+  getHtmlElement,
 };
 
 interface EasyVueTestConfig {
@@ -23,7 +36,7 @@ interface EasyVueTestConfig {
   defaultOptions?: any;
 }
 
-export default class EasyVueTest<T extends WrappedElement = VueComponent> {
+export default class EasyVueTest<T extends WrappedObject = VueComponent> {
   private static _config: EasyVueTestConfig = {
     defaultOptions: {},
     extraMixins: [],
@@ -71,16 +84,16 @@ export default class EasyVueTest<T extends WrappedElement = VueComponent> {
     this._vm = vm;
   }
 
-  public get<U extends WrappedElement>(accessor: SingleAccessor<T, U>): EasyVueTest<U> {
-    return new EasyVueTest(accessor({ el: this._vm, wrapper: this }));
+  public get<U extends WrappedObject>(accessor: SingleAccessor<T, U>): EasyVueTest<U> {
+    return new EasyVueTest(accessor({ obj: this._vm, wrapper: this }));
   }
 
-  public getAll<U extends WrappedElement>(accessor: MultipleAccessor<T, U>): EasyVueTest<U>[] {
-    return accessor({ el: this._vm, wrapper: this }).map((el) => new EasyVueTest(el));
+  public getAll<U extends WrappedObject>(accessor: MultipleAccessor<T, U>): EasyVueTest<U>[] {
+    return accessor({ obj: this._vm, wrapper: this }).map((el) => new EasyVueTest(el));
   }
 
   public do<U>(action: Action<T, U>): U {
-    return action({ el: this._vm, wrapper: this });
+    return action({ obj: this._vm, wrapper: this });
   }
 
   public untilAsyncTasksDone(timeout?: number): Promise<void> {

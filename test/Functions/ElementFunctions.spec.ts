@@ -1,7 +1,7 @@
 import Vue from "vue";
-import EasyVueTest, { checkDomExistence, dom } from "../../src/main";
+import EasyVueTest, { checkElementExistence, element } from "../../src/main";
 
-describe("DomFunctions", () => {
+describe("ElementFunctions", () => {
   let easy: EasyVueTest;
 
   beforeEach(async () => {
@@ -22,25 +22,25 @@ describe("DomFunctions", () => {
 
   it("checks the existence of an element correctly", () => {
     expect(easy
-      .get(dom(".navigation"))
-      .do(checkDomExistence("p")),
+      .get(element(".navigation"))
+      .do(checkElementExistence("p")),
     ).toEqual(true);
 
     expect(easy
-      .get(dom(".navigation"))
-      .do(checkDomExistence(".non-existing-element")),
+      .get(element(".navigation"))
+      .do(checkElementExistence(".non-existing-element")),
     ).toEqual(false);
 
     expect(easy
-      .do(checkDomExistence("p#the-message")),
+      .do(checkElementExistence("p#the-message")),
     ).toEqual(true);
 
     expect(easy
-      .do(checkDomExistence("p.message")),
+      .do(checkElementExistence("p.message")),
     ).toEqual(true);
 
     expect(easy
-      .do(checkDomExistence(".non-existing-element")),
+      .do(checkElementExistence(".non-existing-element")),
     ).toEqual(false);
   });
 });

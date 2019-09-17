@@ -1,5 +1,5 @@
 import Vue from "vue";
-import EasyVueTest, { dom, getInnerHtml, getOuterHtml } from "../../src/main";
+import EasyVueTest, { element, getInnerHtml, getOuterHtml } from "../../src/main";
 
 describe("HtmlFunction", () => {
   let easy: EasyVueTest;
@@ -22,24 +22,24 @@ describe("HtmlFunction", () => {
 
   it("gets the inner HTML content correctly", () => {
     expect(easy
-      .get(dom(".navigation"))
+      .get(element(".navigation"))
       .do(getInnerHtml()),
     ).toEqual("<p>foo</p>");
 
     expect(easy
-      .get(dom("p#the-message"))
+      .get(element("p#the-message"))
       .do(getInnerHtml()),
     ).toEqual("bar");
   });
 
   it("gets the outer HTML content correctly", () => {
     expect(easy
-      .get(dom(".navigation"))
+      .get(element(".navigation"))
       .do(getOuterHtml()),
     ).toEqual(`<div class="navigation"><p>foo</p></div>`);
 
     expect(easy
-      .get(dom("p#the-message"))
+      .get(element("p#the-message"))
       .do(getOuterHtml()),
     ).toEqual(`<p id="the-message">bar</p>`);
   });

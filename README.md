@@ -3,7 +3,9 @@
 # Easy Vue Test 2
 
 ## Introduction
-Easy Vue Test 2 is a test library for testing the components in a Vue.js project. It aims at providing a flexible and extendable API, to keep the test code simple and readable.
+Easy Vue Test 2 is a test library for testing the components in a Vue.js project. It aims at providing a flexible and extendable API, to keep the test code simple and readable, and also fit into the needs of different projects.
+
+I have implemented the vue object cloning functionality by referencing the [vue-test-utils](https://github.com/vuejs/vue-test-utils/blob/dev/packages/test-utils/src/create-local-vue.js) library.
 
 ## Get Started
 ### 1. Install
@@ -41,9 +43,11 @@ describe('HelloWorld.vue', () => {
 ```
 
 ## API Reference
+The test utilities provides a set of functions which can be applied to either an HTML element or a Vue component. The HTML element or Vue component (they are called "object" or "wrapped object" in the following contents) is wrapped by a wrapper class for the "fluent" feeling of the API.
+
 Functions in the library can be divided into two groups, namely accessors and actions:
-* Accessors will help you to get an object in your tested vue component. It can be either an HTML element, or a child Vue.js component
-* Actions will apply action to the current object returned by an accessor
+* Accessors will help you to get a child object in your current wrapped object. The return value of accessors will be wrapped by the wrapper class automatically.
+* Actions will apply action to the current object returned by an accessor. The return value of actions will be returned as-is.
 
 ### 1. Accessors
 #### `element`
@@ -96,9 +100,174 @@ Functions in the library can be divided into two groups, namely accessors and ac
 * Description: get an array of chlid Vue components by their tag name registered in the parent component.
 
 ### 2. Actions
-WIP.
+#### `getProp`
+* Declaration:
+    ```typescript
+    declare function getProp<T>(field: string): Action<VueComponent, T>;
+    ```
+* Description: get the value of a "props" field specified by its name.
+
+#### `setProp`
+* Declaration:
+    ```typescript
+    declare function setProp(field: string, value: any): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: set the value of a "props" field specified by its name.
+
+#### `getData`
+* Declaration:
+    ```typescript
+    declare function getData<T>(field: string): Action<VueComponent, T>;
+    ```
+* Description: get the value of a "data" field specified by its name.
+
+#### `setData`
+* Declaration:
+    ```typescript
+    declare function setData(field: string, value: any): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: set the value of a "data" field specified by its name.
+
+#### `getComputed`
+* Declaration:
+    ```typescript
+    declare function getComputed<T>(field: string): Action<VueComponent, T>;
+    ```
+* Description: get the value of a "computed" field specified by its name.
+
+#### `setComputed`
+* Declaration:
+    ```typescript
+    declare function setComputed(field: string, value: any): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: set the value of a "computed" field specified by its name. It only makes sense if there is a setter of the computed field.
+
+#### `invokeMethod`
+* Declaration:
+    ```typescript
+    declare function invokeMethod<T>(field: string, ...params: any[]): Action<VueComponent, T>;
+    ```
+* Description: invoke a method defined in the "methods" section. The parameters and the return value of the method will be passed and returned as-is.
+
+#### `get$`
+* Declaration:
+    ```typescript
+    declare function get$<T>(field: string): Action<VueComponent, T>;
+    ```
+* Description: get the "dollar" fields in the vue component. Eventually useful for mocking vue-router.
+
+#### `set$`
+* Declaration:
+    ```typescript
+    declare function set$(field: string, value: any): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: set the "dollar" fields in the vue component. Eventually useful for mocking vue-router.
+
+#### `checkElementExistence`
+* Declaration:
+    ```typescript
+    declare function checkElementExistence(selector: string): Action<WrappedObject, boolean>;
+    ```
+* Description: check if the HTML element matching the selecttor is a child element of the current object.
+
+#### `getInputValue`
+* Declaration:
+    ```typescript
+    declare function getInputValue(): Action<HTMLElement, string>;
+    ```
+* Description: get the value of an HTML input element.
+
+#### `setInputValue`
+* Declaration:
+    ```typescript
+    declare function setInputValue(value: string): Action<HTMLElement, EasyVueTest<HTMLElement>>;
+    ```
+* Description: set the value of an HTML input element.
+
+#### `getWrappedObject`
+* Declaration:
+    ```typescript
+    declare function getWrappedObject<T extends WrappedObject>(): Action<T, T>;
+    ```
+* Description: get the wrapped object, which will be either a Vue object or an HTML element.
+
+#### `getInnerHtml`
+* Declaration:
+    ```typescript
+    declare function getInnerHtml(): Action<WrappedObject, string>;
+    ```
+* Description: get the HTML content of an object without its root element.
+
+#### `getOuterHtml`
+* Declaration:
+    ```typescript
+    declare function getOuterHtml(): Action<WrappedObject, string>;
+    ```
+* Description: get the HTML content of an object with its root element.
+
+#### `click`
+* Declaration:
+    ```typescript
+    declare function click(): Action<WrappedObject, EasyVueTest<WrappedObject>>;
+    ```
+* Description: generate a left mouse button click event on the current object.
+
+#### `keyup`
+* Declaration:
+    ```typescript
+    declare function keyup(keyAttr?: KeyAttribute): Action<WrappedObject, EasyVueTest<WrappedObject>>;
+    ```
+* Description: generate a keyup event on the current object. The `keyAttr` parameter can be one of the following constants:
+    * `KEYS.ENTER`
+    * `KEYS.ESCAPE`
+    * `KEYS.BACKSPACE`
+    * `KEYS.ARROW_LEFT`
+    * `KEYS.ARROW_UP`
+    * `KEYS.ARROW_RIGHT`
+    * `KEYS.ARROW_DOWN`
+
+    Or, it can be an object with following structure:
+    ```typescript
+    interface KeyAttribute {
+      code: string;
+      key: string;
+      keyCode: number;
+      location: number;
+    }
+    ```
+
+#### `getTextContent`
+* Declaration:
+    ```typescript
+    declare function getTextContent(): Action<WrappedObject, string>;
+    ```
+* Description: get the text content in the current object.
+
+#### `setVueEventListener`
+* Declaration:
+    ```typescript
+    declare function setVueEventListener(eventName: string, listener: any): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: set the event listener for a Vue component.
+
+#### `emitVueEvent`
+* Declaration:
+    ```typescript
+    declare function emitVueEvent(eventName: string, ...eventData: any[]): Action<VueComponent, EasyVueTest>;
+    ```
+* Description: emit an event from current Vue component, the event name and event data will be passed as-is.
 
 ### 3. Wrapper Class
+#### `configure`
+WIP.
+
+#### `mounted`
+WIP.
+
+#### `mountedAsMixin`
+WIP.
+
+#### `untilAsyncTasksDone`
 WIP.
 
 ## Extensions

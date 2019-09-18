@@ -1,4 +1,4 @@
-import { Action } from "../CommonTypes";
+import { Action, WrappedObject } from "../CommonTypes";
 import EasyVueTest from "../main";
 import { getHtmlElement } from "../Utilities";
 
@@ -9,14 +9,14 @@ interface KeyAttribute {
   location: number;
 }
 
-export function click(): Action<HTMLElement, EasyVueTest<HTMLElement>> {
+export function click(): Action<WrappedObject, EasyVueTest<WrappedObject>> {
   return ({ obj, wrapper }) => {
     getHtmlElement(obj).click();
     return wrapper;
   };
 }
 
-export function keyup(keyAttr: KeyAttribute = KEYS.ENTER): Action<HTMLElement, EasyVueTest<HTMLElement>> {
+export function keyup(keyAttr: KeyAttribute = KEYS.ENTER): Action<WrappedObject, EasyVueTest<WrappedObject>> {
   return ({ obj, wrapper }) => {
     getHtmlElement(obj).dispatchEvent(new window.KeyboardEvent("keyup", {
       ...keyAttr,

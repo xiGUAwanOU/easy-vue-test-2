@@ -5,9 +5,9 @@
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "tsc",
     "clean": "rm -rf dist",
-    "install": "npm run build",
+    "postinstall": "npm run build",
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
     "test": "jest"
   },
